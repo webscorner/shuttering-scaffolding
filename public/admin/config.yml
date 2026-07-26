@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: REPLACE_WITH_GITHUB_USERNAME/REPLACE_WITH_REPOSITORY_NAME
+  repo: webscorner/shuttering-scaffolding
   branch: main
   base_url: https://api.netlify.com
   auth_endpoint: auth
