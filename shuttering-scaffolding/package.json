@@ -1,0 +1,21 @@
+{
+  "name": "shuttering-and-scaffolding-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Complete frontend and local Node.js backend for Shuttering and Scaffolding.",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "npm run build && node --env-file-if-exists=.env server.js",
+    "dev": "npm run build && node --env-file-if-exists=.env --watch server.js",
+    "test": "npm run build && node --test tests/server.test.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.7",
+    "nodemailer": "^9.0.3"
+  }
+}

@@ -1,0 +1,96 @@
+backend:
+  name: github
+  repo: REPLACE_WITH_GITHUB_USERNAME/REPLACE_WITH_REPOSITORY_NAME
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+local_backend: true
+publish_mode: editorial_workflow
+media_folder: public/images/blog
+public_folder: /images/blog
+
+site_url: https://REPLACE_WITH_YOUR_NETLIFY_SITE.netlify.app
+display_url: https://REPLACE_WITH_YOUR_NETLIFY_SITE.netlify.app
+logo_url: /og.png
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: blog
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: content/blog
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [title, date, category]
+    view_filters:
+      - label: Published
+        field: published
+        pattern: "true"
+      - label: Draft
+        field: published
+        pattern: "false"
+    fields:
+      - label: Article title
+        name: title
+        widget: string
+        hint: Use a clear title that explains what the reader will learn.
+      - label: URL slug
+        name: slug
+        widget: string
+        pattern:
+          - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          - Use lowercase words separated with hyphens.
+      - label: Publication date
+        name: date
+        widget: datetime
+        date_format: DD MMM YYYY
+        time_format: HH:mm
+        format: YYYY-MM-DDTHH:mm:ss.SSSZ
+      - label: Author
+        name: author
+        widget: string
+        default: Shuttering and Scaffolding Team
+      - label: Category
+        name: category
+        widget: select
+        options: [Safety, Formwork, Scaffolding, Planning, Products, Construction]
+        default: Construction
+      - label: Short summary
+        name: summary
+        widget: text
+        hint: This appears on the Blogs page below the article title.
+      - label: SEO title
+        name: seoTitle
+        widget: string
+        required: false
+        hint: Keep it concise. If empty, the article title is used.
+      - label: SEO description
+        name: seoDescription
+        widget: text
+        required: false
+        hint: Write a short search-result description of approximately 150 characters.
+      - label: Featured image
+        name: featuredImage
+        widget: image
+        choose_url: false
+        media_library:
+          config:
+            multiple: false
+      - label: Published
+        name: published
+        widget: boolean
+        default: true
+      - label: Article content
+        name: body
+        widget: markdown
+        modes: [rich_text, raw]
+        buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list, quote]
