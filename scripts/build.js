@@ -9,12 +9,14 @@ const publicDirectory = join(projectRoot, "public");
 const contentDirectory = join(projectRoot, "content", "blog");
 const templatePath = join(projectRoot, "templates", "blog-post.html");
 const outputDirectory = join(projectRoot, "dist");
-const page = fillTemplate(articleTemplate, {
-  SEO_TITLE: escapeHtml(post.seoTitle),
-  SEO_DESCRIPTION: escapeHtml(post.seoDescription),
-  CANONICAL_URL: `https://shutteringandscaffolding.com/blog/${post.slug}.html`,
-  OG_IMAGE: escapeHtml(imagePathForArticle(post.featuredImage)),
-  CATEGORY: escapeHtml(post.category),
+const siteUrl = "https://shutteringandscaffolding.com";
+const staticPaths = [
+  "/",
+  "/about.html",
+  "/products.html",
+  "/blogs.html",
+  "/contact.html",
+];
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (character) => ({
@@ -23,6 +25,16 @@ function escapeHtml(value) {
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#039;",
+  }[character]));
+}
+
+function escapeXml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&apos;",
   }[character]));
 }
 
@@ -112,6 +124,24 @@ function renderCard(post, index) {
       </article>`;
 }
 
+function renderSitemap(posts) {
+  const staticUrls = staticPaths.map((pathname) => `
+  <url>
+    <loc>${escapeXml(`${siteUrl}${pathname}`)}</loc>
+  </url>`).join("");
+
+  const blogUrls = posts.map((post) => `
+  <url>
+    <loc>${escapeXml(`${siteUrl}/blog/${post.slug}.html`)}</loc>
+    <lastmod>${post.date.toISOString().slice(0, 10)}</lastmod>
+  </url>`).join("");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticUrls}${blogUrls}
+</urlset>
+`;
+}
+
 async function build() {
   await rm(outputDirectory, { recursive: true, force: true });
   await cp(publicDirectory, outputDirectory, { recursive: true });
@@ -134,6 +164,7 @@ async function build() {
     const page = fillTemplate(articleTemplate, {
       SEO_TITLE: escapeHtml(post.seoTitle),
       SEO_DESCRIPTION: escapeHtml(post.seoDescription),
+      CANONICAL_URL: `${siteUrl}/blog/${post.slug}.html`,
       OG_IMAGE: escapeHtml(imagePathForArticle(post.featuredImage)),
       CATEGORY: escapeHtml(post.category),
       TITLE: escapeHtml(post.title),
@@ -147,6 +178,8 @@ async function build() {
     });
     await writeFile(join(outputDirectory, "blog", `${post.slug}.html`), page, "utf8");
   }
+
+  await writeFile(join(outputDirectory, "sitemap.xml"), renderSitemap(posts), "utf8");
 
   const manifest = posts.map(({ html, date, ...post }) => post);
   await writeFile(join(outputDirectory, "blog-posts.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
