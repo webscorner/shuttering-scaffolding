@@ -1104,3 +1104,21 @@ button, input, textarea, select { font: inherit; }
     padding: 28px 24px;
   }
 }
+.logo.logo-image {
+  width: 240px;
+  max-width: 30vw;
+  line-height: 0;
+}
+
+.logo.logo-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  .logo.logo-image {
+    width: 180px;
+    max-width: 65vw;
+  }
+}
