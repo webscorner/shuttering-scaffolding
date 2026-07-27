@@ -9,6 +9,12 @@ const publicDirectory = join(projectRoot, "public");
 const contentDirectory = join(projectRoot, "content", "blog");
 const templatePath = join(projectRoot, "templates", "blog-post.html");
 const outputDirectory = join(projectRoot, "dist");
+const page = fillTemplate(articleTemplate, {
+  SEO_TITLE: escapeHtml(post.seoTitle),
+  SEO_DESCRIPTION: escapeHtml(post.seoDescription),
+  CANONICAL_URL: `https://shutteringandscaffolding.com/blog/${post.slug}.html`,
+  OG_IMAGE: escapeHtml(imagePathForArticle(post.featuredImage)),
+  CATEGORY: escapeHtml(post.category),
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (character) => ({
