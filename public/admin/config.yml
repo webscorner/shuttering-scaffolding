@@ -10,8 +10,8 @@ publish_mode: editorial_workflow
 media_folder: public/images/blog
 public_folder: /images/blog
 
-site_url: https://REPLACE_WITH_YOUR_NETLIFY_SITE.netlify.app
-display_url: https://REPLACE_WITH_YOUR_NETLIFY_SITE.netlify.app
+site_url: https://shutteringandscaffolding.com
+display_url: https://shutteringandscaffolding.com
 logo_url: /og.png
 
 slug:
