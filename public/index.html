@@ -1,6 +1,34 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <style>
+  .site-header .logo.logo-image {
+    display: block !important;
+    width: 235px !important;
+    max-width: 235px !important;
+    height: 56px !important;
+    flex: 0 0 235px !important;
+    overflow: hidden !important;
+    line-height: 0 !important;
+  }
+
+  .site-header .logo.logo-image img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  @media (max-width: 600px) {
+    .site-header .logo.logo-image {
+      width: 180px !important;
+      max-width: 180px !important;
+      height: 44px !important;
+      flex-basis: 180px !important;
+    }
+  }
+</style>
     <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
